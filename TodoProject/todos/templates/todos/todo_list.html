@@ -28,7 +28,7 @@
                     <div class="card-body">
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <form action="/todos/insert_todo/" method="post" autocomplete="off">
+                                <form action="{% url 'insert_todo_item' %}" method="post" autocomplete="off">
                                     {% csrf_token %}
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="content">

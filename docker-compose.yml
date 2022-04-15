@@ -1,0 +1,32 @@
+# version: '3.9'
+
+# services:
+#   django:
+#     image: django-docker:0.0.1
+#     build: .
+#     ports:
+#       ["8000:8000"]
+
+
+version: "3.9"
+services:
+  web:
+    build: ./app
+    image: 105649027508.dkr.ecr.us-east-1.amazonaws.com/django_docker_aws
+    command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./app/:/usr/src/app/
+      - static_volume:/usr/src/app/static
+    expose:
+      - 8000
+  nginx:
+    build: ./nginx
+    image: 105649027508.dkr.ecr.us-east-1.amazonaws.com/django_docker_aws:django_docker_aws_nginx
+    volumes:
+      - static_volume:/usr/src/app/static
+    ports:
+      - 8000:80
+    depends_on:
+      - web
+volumes:
+  static_volume:
